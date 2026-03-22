@@ -1,0 +1,7 @@
+{
+  "name": "VogueAI - Virtual Stylist",
+  "description": "Upload an item of clothing and get AI-powered outfit recommendations for any occasion, visualized as professional flat-lays.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
