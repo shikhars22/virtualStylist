@@ -1,9 +1,21 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
+const getApiKey = () => {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key || key === 'MY_GEMINI_API_KEY' || key === 'undefined') {
+    return null;
+  }
+  return key;
+};
 
 export const analyzeItem = async (base64Image: string, mimeType: string): Promise<AnalysisResult> => {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    throw new Error("API Key Missing: Please ensure GEMINI_API_KEY is set in your .env file and you have restarted your dev server.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: [
@@ -67,6 +79,10 @@ export const analyzeItem = async (base64Image: string, mimeType: string): Promis
 };
 
 export const generateOutfitImage = async (prompt: string): Promise<string> => {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error("API Key Missing");
+
+  const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',
     contents: {

@@ -33,9 +33,9 @@ export default function App() {
           console.error("Failed to generate image for outfit", i, imgErr);
         }
       }
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong while styling your piece. Please try again.");
+    } catch (err: any) {
+      console.error("Stylist Error:", err);
+      setError(err.message || "Something went wrong while styling your piece. Please try again.");
     } finally {
       setIsAnalyzing(false);
     }
